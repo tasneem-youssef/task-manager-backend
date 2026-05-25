@@ -1,5 +1,4 @@
 const express = require('express');
-const cros=require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require("./routes/auth")
 const taskRoutes = require("./routes/tasks")
@@ -7,11 +6,11 @@ const cors= require("cors");
 require('dotenv').config();
 
 const app = express();
+const Base_URL="https://task-manager-79.netlify.app";
 
 //middelware
-app.use(cros());
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173' }));
+app.use(cors({ origin: Base_URL }));
 //connect DB
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('DB connected');
