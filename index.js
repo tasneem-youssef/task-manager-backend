@@ -6,7 +6,7 @@ const cors= require("cors");
 require('dotenv').config();
 
 const app = express();
-const Base_URL="https://task-manager-79.netlify.app/login";
+const Base_URL="https://task-manager-79.netlify.app";
 
 //middelware
 app.use(express.json());
