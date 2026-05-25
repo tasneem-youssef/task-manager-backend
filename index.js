@@ -6,11 +6,10 @@ const cors= require("cors");
 require('dotenv').config();
 
 const app = express();
-const Base_URL="https://task-manager-79.netlify.app";
 
 //middelware
 app.use(express.json());
-app.use(cors({ origin: Base_URL }));
+app.use(cors({ origin: "https://task-manager-79.netlify.app", credentials: true}));
 //connect DB
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log('DB connected');
