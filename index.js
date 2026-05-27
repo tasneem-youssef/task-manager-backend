@@ -30,7 +30,7 @@ const connecttoDatabase = async () => {
     console.log("CRITICAL ERROR: MONGO_URI is not defined or not loaded!");
     throw new Error("MONGO_URI is missing");
   }
-};
+
 try {
   const db = await mongoose.connect(process.env.MONGO_URI);
   isConnected = db.connections[0].readyState;
@@ -38,7 +38,7 @@ try {
 } catch (error) {
   console.log("Error while connecting to Atlas", error);
   throw error;
-}
+}}
 
 app.use(async (req, res, next) => {
   try {
