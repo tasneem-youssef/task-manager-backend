@@ -6,15 +6,13 @@ const taskRoutes = require("./routes/tasks");
 const cors = require("cors");
 
 const app = express();
-const hardcodedUri="mongodb+srv://tasneem99_user:TanEeM463@taskmanagerdb.00upttf.mongodb.net/taskmanagerdb?retryWrites=true&w=majority"
-//middelware
 app.use(express.json());
 app.use(
   cors({ origin: "https://task-manager-79.netlify.app", credentials: true }),
 );
 //connect DB
 mongoose
-  .connect(hardcodedUri)
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("DB connected");
   })
@@ -26,13 +24,13 @@ let isConnected = false;
 const connecttoDatabase = async () => {
   if (isConnected) return;
 
-  if (!hardcodedUri) {
+  if (!process.env.MONGO_URI) {
     console.log("CRITICAL ERROR: MONGO_URI is not defined or not loaded!");
     throw new Error("MONGO_URI is missing");
   }
 
 try {
-  const db = await mongoose.connect(hardcodedUri);
+  const db = await mongoose.connect(process.env.MONGO_URI);
   isConnected = db.connections[0].readyState;
   console.log("connected to Atlas");
 } catch (error) {
