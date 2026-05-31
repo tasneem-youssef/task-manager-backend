@@ -10,7 +10,7 @@ const hardcodedUri="mongodb+srv://tasneem99_user:TanEeM463@taskmanagerdb.00upttf
 //middelware
 app.use(express.json());
 app.use(
-  cors({ origin: ["https://task-manager-79.netlify.app","http://localhost:5173"], credentials: true }),
+  cors({ origin: "https://task-manager-79.netlify.app", credentials: true }),
 );
 //connect DB
 mongoose
