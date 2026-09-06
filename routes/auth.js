@@ -1,11 +1,12 @@
-const express = require('express');
-const router=express.Router();
-const User=require('../models/user');
- const jwt=require('jsonwebtoken');
- require('dotenv').config();
+import express from 'express';
+const authRoutes=express.Router();
+import User from '../models/user.js';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+
 
  //register user
- router.post('/signup', async (req, res) => {
+ authRoutes.post('/signup', async (req, res) => {
 const {email, password, name}=req.body;
 try {
     let user=await User.findOne({email});
@@ -18,7 +19,7 @@ try {
 } 
 })
 //login user
-router.post('/login', async (req, res) => {
+authRoutes.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
       const user = await User.findOne({ email });
@@ -34,4 +35,4 @@ router.post('/login', async (req, res) => {
     }
   });
   
-  module.exports = router;
+  export default authRoutes;

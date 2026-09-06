@@ -1,20 +1,21 @@
 import 'dotenv/config';
-const express = require("express");
-const mongoose = require("mongoose");
-const authRoutes = require("./routes/auth");
-const taskRoutes = require("./routes/tasks");
-const cors = require("cors");
+import express from 'express';
+import mongoose from 'mongoose';
+import authRoutes from "./routes/auth.js";
+import taskRoutes from "./routes/tasks.js";
+import cors from "cors";
 
 const app = express();
-const hardcodedUri="mongodb+srv://tasneem99_user:TanEeM463@taskmanagerdb.00upttf.mongodb.net/taskmanagerdb?retryWrites=true&w=majority"
 //middelware
 app.use(express.json());
 app.use(
   cors({ origin: "https://tasneem-youssef.github.io/task-manger-frontend", credentials: true }),
 );
+
+console.log(process.env.MONGO_URI);
 //connect DB
 mongoose
-  .connect(hardcodedUri)
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("DB connected");
   })
@@ -32,7 +33,7 @@ const connecttoDatabase = async () => {
   }
 
 try {
-  const db = await mongoose.connect(hardcodedUri);
+  const db = await mongoose.connect(process.env.MONGO_URI);
   isConnected = db.connections[0].readyState;
   console.log("connected to Atlas");
 } catch (error) {

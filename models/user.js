@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bycrypt = require('bcryptjs');
+import mongoose from 'mongoose';
+import bycrypt from 'bcryptjs';
 const userSchema = new mongoose.Schema({
     email:{
         type: String,
@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type: String,
-        required: true,
+        required: true,     
         trim: true,
         minlength: 7
     },
@@ -32,4 +32,4 @@ next();
 userSchema.methods.matchPassword = async function(enteredPassword){
     return await bycrypt.compare(enteredPassword, this.password);
 }
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);

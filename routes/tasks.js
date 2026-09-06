@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const Task = require('../models/tasks');
-const authMiddleware = require('../middelware/auth');
+import express from 'express';
+const taskRoutes   = express.Router();
+import Task from '../models/tasks.js';
+import authMiddleware from '../middelware/auth.js';
 //add new task
-router.post('/', authMiddleware, async (req, res) => {
+ taskRoutes.post('/', authMiddleware, async (req, res) => {
   const { title, description ,dueDate } = req.body;
   try {
     const task = new Task({
@@ -20,9 +20,9 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 //get all tasks
-router.get('/', authMiddleware, async (req, res) => {
+ taskRoutes.get('/', authMiddleware, async (req, res) => {
   try {
-    const tasks = await Task.find({
+    const tasks = await find({
       $or: [{ createdBy: req.user }] 
     })
     res.json(tasks);
@@ -31,9 +31,9 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 //get single task
-router.get("/:id",authMiddleware,async(req,res)=>{
+ taskRoutes.get("/:id",authMiddleware,async(req,res)=>{
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await findById(req.params.id);
     if (!task) return res.status(404).json({ msg: 'Task not found' });
     if (task.createdBy.toString() !== req.user)
       return res.status(403).json({ msg: 'Not authorized' });
@@ -45,10 +45,10 @@ router.get("/:id",authMiddleware,async(req,res)=>{
 })
 
 //update task
-router.put('/:id', authMiddleware, async (req, res) => {
+ taskRoutes.put('/:id', authMiddleware, async (req, res) => {
   const { title, description, completed ,dueDate} = req.body;
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await findById(req.params.id);
     if (!task) return res.status(404).json({ msg: 'Task not found' });
     if (task.createdBy.toString() !== req.user)
       return res.status(403).json({ msg: 'Not authorized' });
@@ -65,9 +65,9 @@ task.dueDate= dueDate !==undefined ?new Date(dueDate): task.dueDate;
   }
 });
 
-router.delete('/:id', authMiddleware, async (req, res) => {
+ taskRoutes.delete('/:id', authMiddleware, async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await findById(req.params.id);
     if (!task) return res.status(404).json({ msg: 'Task not found' });
     if (task.createdBy.toString() !== req.user)
       return res.status(403).json({ msg: 'Not authorized' });
@@ -79,4 +79,4 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default taskRoutes;
