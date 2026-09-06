@@ -8,9 +8,22 @@ import cors from "cors";
 const app = express();
 //middelware
 app.use(express.json());
+const allowedOrigins = process.env.allowedconnection
+  ? process.env.allowedconnection.split(',').map(o => o.trim())
+  : [];
+
 app.use(
-  cors({ origin: process.env.allowedconnection, credentials: true }),
-);
+  cors({
+     origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  })
+)
 
 //connect DB
 mongoose
